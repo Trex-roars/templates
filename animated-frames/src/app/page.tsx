@@ -1,7 +1,6 @@
-// pages/animation.tsx or app/animation/page.tsx (depending on Next.js version)
 'use client'
 
-import Ani from './ani';
+import ScrollAnimation from '@/Components/ScrollAnimation';
 
 export default function AnimationPage() {
   return (
@@ -21,7 +20,7 @@ export default function AnimationPage() {
         frameDigits={4}
       /> */}
 
-      <Ani />
+      <ScrollAnimation />
     </>
   );
 }

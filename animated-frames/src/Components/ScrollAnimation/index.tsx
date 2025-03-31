@@ -18,15 +18,12 @@ const ScrollAnimation: React.FC = () => {
     const elementsRef = useRef<Record<string, HTMLElement | null>>({});
     const [imagesLoaded, setImagesLoaded] = useState<boolean>(false);
     const [loadingProgress, setLoadingProgress] = useState<number>(0);
+    // to be Updated as per the video
     const frameCount = 382;
     const images = useRef<HTMLImageElement[]>([]) as ImageRef;
 
-    // Register GSAP plugins
     gsap.registerPlugin(ScrollTrigger, TextPlugin);
 
-
-
-    // Load all images with progress tracking
     useEffect(() => {
         let isMounted = true;
 
@@ -71,14 +68,12 @@ const ScrollAnimation: React.FC = () => {
 
         loadImages();
 
-        // Clean up function
         return () => {
             isMounted = false;
             images.current = [];
         };
     }, []);
 
-    // Set up canvas and scroll animation
     useEffect(() => {
         if (!imagesLoaded || images.current.length === 0) return;
 
@@ -88,17 +83,14 @@ const ScrollAnimation: React.FC = () => {
         const context = canvas.getContext('2d');
         if (!context) return;
 
-        // Add a canvas filter effect
         context.filter = 'brightness(1.05) contrast(1.1)';
 
-        // Set canvas dimensions
         const resizeCanvas = () => {
             if (!canvas) return;
 
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
 
-            // Force initial render
             const currentScroll = window.scrollY / (document.body.scrollHeight - window.innerHeight);
             const frameIndex = Math.min(
                 frameCount - 2,
@@ -107,7 +99,6 @@ const ScrollAnimation: React.FC = () => {
             renderFrame(frameIndex);
         };
 
-        // Draw the current frame with enhancement
         const renderFrame = (index: number) => {
             if (!context || index < 0 || index >= images.current.length) return;
 
@@ -130,7 +121,6 @@ const ScrollAnimation: React.FC = () => {
             const x = (canvas.width - drawWidth) / 2;
             const y = (canvas.height - drawHeight) / 2;
 
-            // Clear canvas and draw image
             context.clearRect(0, 0, canvas.width, canvas.height);
             context.drawImage(img, x, y, drawWidth, drawHeight);
 
@@ -146,15 +136,12 @@ const ScrollAnimation: React.FC = () => {
             context.fillRect(0, 0, canvas.width, canvas.height);
         };
 
-        // Initialize canvas
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
-        // Set up scroll trigger with enhanced animation
         let scrollAnimation: ScrollTrigger;
 
         if (containerRef.current) {
-            // Main frame animation
             scrollAnimation = ScrollTrigger.create({
                 trigger: containerRef.current,
                 start: "top top",

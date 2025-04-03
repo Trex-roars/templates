@@ -64,7 +64,10 @@ wss.on("connection", (ws) => {
 
     broadCast({
         type: "userList",
-        users: Array.from(users.values()).map(user => ({ id: user.id, name: user.name }))
+        users: Array.from(users.values()).map(user => ({
+            id: user.id,
+            name: user.name
+        }))
     });
 
     ws.on("message", (message) => {
@@ -86,7 +89,7 @@ wss.on("connection", (ws) => {
     });
 
     ws.on("error", (err) => {
-        // console.error(`WebSocket error (User${userId}):`, err);
+        console.error(`WebSocket error (User${userId}):`, err);
     });
 
     ws.send(JSON.stringify({

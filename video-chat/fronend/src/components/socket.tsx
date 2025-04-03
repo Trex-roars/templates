@@ -68,7 +68,7 @@ const WebSocketClient = () => {
                         ...prev,
                         {
                             userId: data.userId,
-                            content: data.message,
+                            content: data.message.content,
                             timestamp: data.timestamp || Date.now()
                         },
                     ]);

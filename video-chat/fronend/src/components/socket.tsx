@@ -1,4 +1,4 @@
-"use client"; // Runs only on the client side
+"use client";
 import { useEffect, useRef, useState } from "react";
 
 interface User {
@@ -25,6 +25,8 @@ const WebSocketClient = () => {
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     };
+
+
 
     useEffect(() => {
         scrollToBottom();
@@ -72,6 +74,7 @@ const WebSocketClient = () => {
                             timestamp: data.timestamp || Date.now()
                         },
                     ]);
+                    console.log("Received message:", data.message);
                     break;
 
                 case "userDisconnected":
@@ -113,6 +116,9 @@ const WebSocketClient = () => {
     }, []);
 
     const sendMessage = () => {
+        if (!userId) return;
+        if (input.trim() === "") return;
+        if (!ws) return
         if (ws && input.trim()) {
             try {
                 ws.send(JSON.stringify({
@@ -120,7 +126,6 @@ const WebSocketClient = () => {
                     content: input
                 }));
             } catch {
-                // Fallback to plain text for backward compatibility
                 ws.send(input);
             }
             setInput("");
@@ -141,7 +146,7 @@ const WebSocketClient = () => {
     };
 
     return (
-        <div className="flex flex-col h-screen bg-gray-900 text-gray-100">
+        <div className="flex w-7xl flex-col h-screen bg-gray-900 text-gray-100">
             {/* Header */}
             <div className="bg-gray-800 p-4 shadow-md flex items-center justify-between">
                 <h2 className="text-xl font-bold">DarkChat</h2>
